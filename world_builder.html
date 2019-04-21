@@ -769,46 +769,8 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <p>These layers contain all the small items that are spread all around the world. If the item has an upper part that can cover the hero, then it must go in the "High Sprites" layer. Otherwise, it goes in  the "Low Sprites" layer.</p>
 </div>
 <div class="paragraph">
-<p>Each sprite in the tileset can have a string property named <code>shape</code> that is the collision shape of the sprite. The shapes are assumed to be centered in the tile. If the <code>shape</code> property is not present, no collision shape is defined for this tile.</p>
+<p>Each sprite in the tileset can have a collision shape. It is defined in Tiled. The collision shape is represented by an <em>ellipse object</em> or a <em>rectangle object</em> or a <em>polyline object</em>.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Shape properties in tilesets</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Value of <code>shape</code></th>
-<th class="tableblock halign-left valign-top">Mandatory properties</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>circle</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p><code>shape_radius</code>: the radius of the circle.</p>
-</li>
-</ul>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rectangle</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p><code>shape_width</code>: the width of the rectangle</p>
-</li>
-<li>
-<p><code>shape_height</code>: the height of the rectangle</p>
-</li>
-</ul>
-</div></div></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="sect2">
@@ -834,7 +796,7 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <p>A zone is represented by a <em>rectangle object</em> or a <em>polygon object</em>.</p>
 </div>
 <table id="special_messages" class="tableblock frame-all grid-all fit-content stretch">
-<caption class="title">Table 6. Special messages</caption>
+<caption class="title">Table 5. Special messages</caption>
 <colgroup>
 <col>
 <col>
@@ -962,7 +924,7 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <p><code>World.moveHero(location)</code> move the hero to the specified location. The <code>location</code> parameter is a valid location name on the map (see <a href="#locations_layer">Section 2.3.2, &#8220;Locations layer&#8221;</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>World.moveHeroDown()</code> and <code>World.moveHeroUp()</code> are used when the messages <code>MoveDown</code> and <code>MoveUp</code> respectively are triggered (see <a href="#special_messages">Table 6, &#8220;Special messages&#8221;</a>).</p>
+<p><code>World.moveHeroDown()</code> and <code>World.moveHeroUp()</code> are used when the messages <code>MoveDown</code> and <code>MoveUp</code> respectively are triggered (see <a href="#special_messages">Table 5, &#8220;Special messages&#8221;</a>).</p>
 </div>
 </div>
 <div class="sect3">
@@ -1029,7 +991,7 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2019-03-30 09:26:21 CET
+Last updated 2019-04-05 17:35:41 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">
