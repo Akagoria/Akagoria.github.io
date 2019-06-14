@@ -572,13 +572,13 @@ table.CodeRay td.code>pre{padding:0}
 <p>The message that was defered is handled at this time and passed to <code>Script::onMessage()</code> (in <code>Script.cc</code>)</p>
 </li>
 <li>
-<p>A call to the wren script is prepared with the name of the message, and then <code>Advendture::onMessage()</code> is called (is <code>adventure.wren</code>)</p>
+<p>A call to the Wren script is prepared with the name of the message, and then <code>Advendture::onMessage()</code> is called (in <code>adventure.wren</code>)</p>
 </li>
 <li>
 <p>The handler in the script retrieves the callback and, in this case, calls an anonymous function that was registered in <code>Chapter1::initialize()</code> (in <code>chapter1.wren</code>)</p>
 </li>
 <li>
-<p>A call to <code>World::startDialog()</code> is made, this wren call is foreign (in <code>world.wren</code>) and actually call <code>Script::startDialog()</code> (in <code>Script.cc</code>)</p>
+<p>A call to <code>World::startDialog()</code> is made, this Wren call is foreign (in <code>world.wren</code>) and actually call <code>Script::startDialog()</code> (in <code>Script.cc</code>)</p>
 </li>
 <li>
 <p>Finally the <code>startDialog()</code> function sets the current operation to <code>Talk</code> and adds a dialog to the world state.</p>
@@ -594,7 +594,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2019-03-16 23:44:52 CET
+Last updated 2019-06-14 17:10:44 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">
