@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <meta name="author" content="Julien Bernard">
-<title>Akagoria developer documentation</title>
+<title>Game system</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -524,7 +524,7 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article">
 <div id="header">
-<h1>Akagoria developer documentation</h1>
+<h1>Game system</h1>
 <div class="details">
 <span id="author" class="author">Julien Bernard</span><br>
 <span id="email" class="email"><a href="mailto:julien.bernard@univ-fcomte.fr">julien.bernard@univ-fcomte.fr</a></span><br>
@@ -533,9 +533,21 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_engine_developers">1. Engine developers</a></li>
-<li><a href="#_content_developers">2. Content developers</a></li>
-<li><a href="#_external_links">3. External links</a></li>
+<li><a href="#_main_character_kalista">1. Main character: Kalista</a>
+<ul class="sectlevel2">
+<li><a href="#_attributes">1.1. Attributes</a></li>
+<li><a href="#_conditions">1.2. Conditions</a></li>
+<li><a href="#skills">1.3. Skills</a></li>
+<li><a href="#_experience">1.4. Experience</a></li>
+</ul>
+</li>
+<li><a href="#_npcs_and_monsters">2. NPCs and monsters</a></li>
+<li><a href="#_action_resolution">3. Action resolution</a>
+<ul class="sectlevel2">
+<li><a href="#_combat_resolution">3.1. Combat resolution</a></li>
+<li><a href="#_crafting">3.2. Crafting</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -543,52 +555,388 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Welcome to the Akagoria developer documentation.</p>
+<p>This document describes the game system in Akagoria.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_engine_developers">1. Engine developers</h2>
+<h2 id="_main_character_kalista">1. Main character: Kalista</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_attributes">1.1. Attributes</h3>
+<div class="paragraph">
+<p>The main character has 5 <a href="https://en.wikipedia.org/wiki/Attribute_(role-playing_games)">attributes</a></p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="engine_design.html">Akagoria engine design</a></p>
+<p>Strength (STR)</p>
 </li>
 <li>
-<p><a href="scripting.html">Scripting</a></p>
+<p>Dexterity (DEX)</p>
+</li>
+<li>
+<p>Intelligence (INT)</p>
+</li>
+<li>
+<p>Wisdom (WIS)</p>
+</li>
+<li>
+<p>Knowledge (KNO)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each attribute has two sibling attributes and two opposed attributes. For example, Strength is opposed to Intelligence and Wisdom.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="attributes.png" alt="Attributes">
+</div>
+<div class="title">Figure 1. Attributes of the main character</div>
+</div>
+<div class="paragraph">
+<p>All attributes start at 50% and cannot go above 100% or beyond 10%. When an attribute is used (through its associated skills, see <a href="#skills">Section 1.3, &#8220;Skills&#8221;</a>), it is enhanced and its two opposed attributes are reduced. The siblings attributes are unchanged. More precisely, if an attribute receives \(x\) points, then \(\frac{x}{2}\) points are taken from its two opposed attributes. As a consequene, the total points for all the attributes remains the same: 250%.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conditions">1.2. Conditions</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Health</p>
+</li>
+<li>
+<p>Magic</p>
+</li>
+<li>
+<p>Vitality</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="skills">1.3. Skills</h3>
+<div class="sect3">
+<h4 id="_melee_combat">1.3.1. Melee combat</h4>
+<div class="paragraph">
+<p>Attribute: <strong>Strength</strong></p>
+</div>
+<div class="sect4">
+<h5 id="_swords_axes">Swords, axes</h5>
+<div class="paragraph">
+<p>Melee weapons (swords, axes, knifes, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ATK: the attack power</p>
+</li>
+<li>
+<p>Required strength: the minimum strength needed to use the weapon</p>
+</li>
+<li>
+<p>VP: The number of Vitality point</p>
+</li>
+<li>
+<p>Cooldown: the time after which the weapon is ready</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_shields">Shields</h5>
+<div class="paragraph">
+<p>Shields have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DEF: the defense power</p>
+</li>
+<li>
+<p>Required strength: the minimum strength needed to use the weapon</p>
+</li>
+<li>
+<p>VP: The number of Vitality point</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_content_developers">2. Content developers</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_distance_combat">1.3.2. Distance combat</h4>
+<div class="paragraph">
+<p>Attribute: <strong>Dexterity</strong></p>
+</div>
+<div class="sect4">
+<h5 id="_bows_crossbows">Bows, crossbows</h5>
+<div class="paragraph">
+<p>Ranged weapons (bows, crossbows, &#8230;&#8203;) have the following properties:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="world_builder.html">Akagoria world builder manual</a></p>
+<p>Range: the maximum distance of the target</p>
 </li>
 <li>
-<p><a href="game_system.html">Game system</a></p>
+<p>Angle: the maximum deviation of the arrow to reach the target</p>
+</li>
+<li>
+<p>Required dexterity: the minimum dexterity needed to use the weapon</p>
+</li>
+<li>
+<p>Cooldown: the time after which the weapon is ready</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Projectiles (arrows, bolts, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ATK: the attack power</p>
+</li>
+<li>
+<p>VP: The number of Vitality point</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_external_links">3. External links</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_magic_spells">1.3.3. Magic spells</h4>
+<div class="paragraph">
+<p>Attribute: <strong>Intelligence</strong></p>
+</div>
+<div class="paragraph">
+<p>The user has to find <em>books</em> in order to learn the spells.</p>
+</div>
+<div class="sect4">
+<h5 id="_elemental_spells">Elemental spells</h5>
+<div class="paragraph">
+<p>Elemental spells (fire, ice, lightning, &#8230;&#8203;) have the following properties:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/Akagoria/akagoria">Github repository</a></p>
+<p>ATK: the attack power</p>
 </li>
 <li>
-<p><a href="https://akagoria.org/">Public website</a></p>
+<p>MP: the number of magic points</p>
+</li>
+<li>
+<p>Required intelligence: the minimum intelligence needed to use the spell</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_protection_spells">Protection spells</h5>
+<div class="paragraph">
+<p>Protection spells (barrier, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DEF: the defense power</p>
+</li>
+<li>
+<p>MP: the number of magic points</p>
+</li>
+<li>
+<p>Required intelligence: the minimum intelligence needed to use the spell</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_magic_incantation">1.3.4. Magic incantation</h4>
+<div class="paragraph">
+<p>Attribute: <strong>Wisdom</strong></p>
+</div>
+<div class="paragraph">
+<p>The user has to find <em>parchments</em> in order to learn incantations.</p>
+</div>
+<div class="sect4">
+<h5 id="_alteration_spells">Alteration spells</h5>
+<div class="paragraph">
+<p>Alteration spells (disease, curse, malediction, lethargy, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ATK: the attack power</p>
+</li>
+<li>
+<p>MP: the number of magic points</p>
+</li>
+<li>
+<p>Required wisdom: the minimum wisdom needed to use the spell</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_enhancement_spells">Enhancement spells</h5>
+<div class="paragraph">
+<p>Enhancement spells (cure, double vitality, double health, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Effect: the effect of the spell</p>
+</li>
+<li>
+<p>MP: the number of magic points</p>
+</li>
+<li>
+<p>Required wisdom: the minimum wisdom needed to use the spell</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_alchemy">1.3.5. Alchemy</h4>
+<div class="paragraph">
+<p>Attribute: <strong>Knowledge</strong></p>
+</div>
+<div class="paragraph">
+<p>The character has to collect <em>ingredients</em> and <em>recipes</em> in order to be able to craft explosives and potions with the cauldron.</p>
+</div>
+<div class="paragraph">
+<p>A recipe has the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Required knowledge: the minimum knowledge required to use the recipe</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_explosive_crafting">Explosive crafting</h5>
+<div class="paragraph">
+<p>Explosives (grenade, fireball, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ATK: the attack power</p>
+</li>
+<li>
+<p>VP: The number of Vitality point</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_potion_crafting">Potion crafting</h5>
+<div class="paragraph">
+<p>Potions (health potion,  magic potion, &#8230;&#8203;) have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Effect: the effect of the potion</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_experience">1.4. Experience</h3>
+<div class="paragraph">
+<p>Experience is gained by absorbing dark power, in Shrines of Ike. A certain amount of experience corresponds to a level \(L\).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_npcs_and_monsters">2. NPCs and monsters</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_action_resolution">3. Action resolution</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_combat_resolution">3.1. Combat resolution</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check if the attack is valid</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Check if the remaining associated points are high enough</p>
+</li>
+<li>
+<p>Check if the associated skill \(S\) is high enough</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Compute success of the action</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Choose a random number \(R\) between 0 and 100</p>
+</li>
+<li>
+<p>If \(R \leq S\), the action is sucessful otherwise the action is <em>failed</em></p>
+</li>
+<li>
+<p>Compute the extent of success: \(E = 1 + \frac{S - R}{100}\)</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Compute power of the attack</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Compute the offensive points: \(\text{ATK} \times E \times \sqrt{L}\)</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Compute power of the defense</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Compute the defensive points: \(\text{DEF} \times \sqrt{L}\)</p>
+</li>
+<li>
+<p>If the defensive points are larger than the offensive points, then the action is <em>missed</em></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Compute the damage</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The damage corresponds to: \(ATK \times E\)</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_crafting">3.2. Crafting</h3>
+
 </div>
 </div>
 </div>
@@ -596,7 +944,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2019-05-05 09:48:18 CEST
+Last updated 2019-05-24 14:23:07 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">
