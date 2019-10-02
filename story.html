@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Julien Bernard">
-<title>Akagoria engine design</title>
+<title>Story of The Revenge of Kalista</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Akagoria engine design</h1>
+<h1>Story of The Revenge of Kalista</h1>
 <div class="details">
 <span id="author" class="author">Julien Bernard</span><br>
 <span id="email" class="email"><a href="mailto:julien.bernard@univ-fcomte.fr">julien.bernard@univ-fcomte.fr</a></span><br>
@@ -448,15 +448,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#world">1. World</a>
-<ul class="sectlevel2">
-<li><a href="#_global_classes">1.1. Global classes</a></li>
-<li><a href="#_parts">1.2. Parts</a></li>
-</ul>
-</li>
-<li><a href="#opening">2. Opening</a></li>
-<li><a href="#_root">3. Root</a></li>
-<li><a href="#_ui">4. UI</a></li>
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_part_1_arraband">2. Part 1: Arraband</a></li>
+<li><a href="#_part_2_elatan">3. Part 2: Elatan</a></li>
+<li><a href="#_part_3_inichke">4. Part 3: Inichke</a></li>
+<li><a href="#_part_4_orta">5. Part 4: Orta</a></li>
+<li><a href="#_part_5_uchun">6. Part 5: Uchun</a></li>
+<li><a href="#_conclusion">7. Conclusion</a></li>
 </ul>
 </div>
 </div>
@@ -464,315 +462,57 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This document provides an overview of the <a href="https://github.com/Akagoria/akagoria">source code of Akagoria</a>.</p>
+<p>This document describes the story of <em>The Revenge of Kalista</em>. It is based on the <a href="world_description.html">description of Akagoria</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="world">1. World</h2>
+<h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The design of the world of Akagoria is a variation of the <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">model-view-controller pattern</a>.</p>
-</div>
-<div class="sect2">
-<h3 id="_global_classes">1.1. Global classes</h3>
-<div class="sect3">
-<h4 id="_model">1.1.1. Model</h4>
-<div class="paragraph">
-<p>The model is the central part of the design. It is split in three different parts:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>WorldData</code> is the pure data of the world. It is defined in files as explained in the <a href="world_builder.html">world builder manual</a>. This part of the model contains all the data that do not change in instances of the world. It is serialized in <code>akagoria.dat</code>. It is loaded at the start of the game and do not change afterwards. Examples: map, dialogs, notifications, etc.</p>
-</li>
-<li>
-<p><code>WorldState</code> is the state of the world. Simply said, it represents all that has to be saved to be able to recover the exact same world at the start of the game. The state is serialized to form a <a href="https://en.wikipedia.org/wiki/Saved_game">game save</a>. Example: hero and characters position, attributes, etc.</p>
-</li>
-<li>
-<p><code>WorldScenery</code> is the part of the model that can be reconstructed at the start of the game from the data and the state of the world, and that do not need to be stored. Examples: sprites, animations, menus, etc.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_controller">1.1.2. Controller</h4>
-<div class="paragraph">
-<p>The controller handles the evolution of the world, either because of a user input, or by a classical update.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>WorldDriver</code> takes care of the commands of the user. It checks for new commands and modifies the model accordingly. It also calls the script in case of a special event.</p>
-</li>
-<li>
-<p><code>WorldProcessor</code> updates the world on a timely basis. Especially, it updates the physics simulation, animations and particles.</p>
-</li>
-<li>
-<p><code>Script</code> handles the script, it loads the script at the start of the game and binds the relevant functions from and to the script. Then, it is responsible of updating the model when a function is called.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_view">1.1.3. View</h4>
-<div class="paragraph">
-<p>The view is composed of several specialized classes. There is not a single central class like for the model or the controller. Each part in the world can define a <code>Renderer</code> (in fact a <code>gf::Entity</code> that only redefines the <code>render</code> method). A renderer may have access to the whole model in order to properly display the relevant informations.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_parts">1.2. Parts</h3>
-<div class="paragraph">
-<p>Each part in the world can contribute to the world data, the world state, the world scenery or the world view. Here is a list of the current parts and their contributions.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Existing parts for World</caption>
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Part</th>
-<th class="tableblock halign-center valign-top">Data</th>
-<th class="tableblock halign-center valign-top">State</th>
-<th class="tableblock halign-center valign-top">Scenery</th>
-<th class="tableblock halign-center valign-top">Renderer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Area</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Atlas</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Attributes</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Character</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Dialog</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">GameMenu</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Hero</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Inventory</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Item</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Landscape</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Location</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Map</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">MiniMap</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Notification</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Progression</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Physics</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Vfx</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Weapon</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-</tr>
-</tbody>
-</table>
-</div>
+
 </div>
 </div>
 <div class="sect1">
-<h2 id="opening">2. Opening</h2>
+<h2 id="_part_1_arraband">2. Part 1: Arraband</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The opening scene is what happens before the real game is launched. Its design is a simplification of <a href="#world">Section 1, &#8220;World&#8221;</a>. Obviously, there is no data and no state. But there is an <code>OpeningDriver</code> and an <code>OpeningProcessor</code>.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Existing parts for Opening</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Part</th>
-<th class="tableblock halign-center valign-top">Scenery</th>
-<th class="tableblock halign-center valign-top">Renderer</th>
-<th class="tableblock halign-left valign-top">Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Logo</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Splash screen</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StartMenu</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
+
 </div>
 </div>
 <div class="sect1">
-<h2 id="_root">3. Root</h2>
+<h2 id="_part_2_elatan">3. Part 2: Elatan</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The root scenery is a special class that handles scenery common to <a href="#world">Section 1, &#8220;World&#8221;</a> and <a href="#opening">Section 2, &#8220;Opening&#8221;</a></p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Existing parts for Root</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Part</th>
-<th class="tableblock halign-center valign-top">Scenery</th>
-<th class="tableblock halign-center valign-top">Renderer</th>
-<th class="tableblock halign-left valign-top">Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CommandsHelper</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SlotSelector</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Options</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">✓</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
+
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ui">4. UI</h2>
+<h2 id="_part_3_inichke">4. Part 3: Inichke</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The UI strings are serialized in a different file, <code>ui.dat</code>, in order to be available since the beginning without having to load the whole world. They are common to the world and to the opening.</p>
+
 </div>
+</div>
+<div class="sect1">
+<h2 id="_part_4_orta">5. Part 4: Orta</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_5_uchun">6. Part 5: Uchun</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">7. Conclusion</h2>
+<div class="sectionbody">
+
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2019-09-28 16:02:36 +0200
+Last updated 2019-10-02 14:35:37 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
