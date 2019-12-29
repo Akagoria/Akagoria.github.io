@@ -461,9 +461,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#atlases">3.1. Atlases</a></li>
 <li><a href="#characters">3.2. Characters</a></li>
 <li><a href="#items">3.3. Items</a></li>
-<li><a href="#dialogs">3.4. Dialogs</a></li>
-<li><a href="#_quests">3.5. Quests</a></li>
-<li><a href="#notifications">3.6. Notifications</a></li>
+<li><a href="#_weapons">3.4. Weapons</a></li>
+<li><a href="#dialogs">3.5. Dialogs</a></li>
+<li><a href="#_quests">3.6. Quests</a></li>
+<li><a href="#notifications">3.7. Notifications</a></li>
 </ul>
 </li>
 <li><a href="#scripts">4. Scripts</a>
@@ -769,7 +770,8 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">Alice</span><span class="delimiter">&quot;</span></span>: {
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: { <span class="key"><span class="delimiter">&quot;</span><span class="content">width</span><span class="delimiter">&quot;</span></span>: <span class="integer">60</span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">height</span><span class="delimiter">&quot;</span></span>: <span class="integer">55</span> }
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: { <span class="key"><span class="delimiter">&quot;</span><span class="content">width</span><span class="delimiter">&quot;</span></span>: <span class="integer">60</span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">height</span><span class="delimiter">&quot;</span></span>: <span class="integer">55</span> },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">weapon</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">SmallSword</span><span class="delimiter">&quot;</span></span>
 }</code></pre>
 </div>
 </div>
@@ -788,7 +790,24 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 </div>
 </div>
 <div class="sect2">
-<h3 id="dialogs">3.4. Dialogs</h3>
+<h3 id="_weapons">3.4. Weapons</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">SmallSword</span><span class="delimiter">&quot;</span></span>: {
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">small sword</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">melee</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">ATK</span><span class="delimiter">&quot;</span></span>: <span class="integer">10</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">REQ</span><span class="delimiter">&quot;</span></span>: <span class="integer">30</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">VP</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">range</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">angle</span><span class="delimiter">&quot;</span></span>: <span class="integer">90</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">cooldown</span><span class="delimiter">&quot;</span></span>: <span class="integer">2000</span>
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dialogs">3.5. Dialogs</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">Name</span><span class="delimiter">&quot;</span></span>: {
@@ -802,11 +821,11 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quests">3.5. Quests</h3>
+<h3 id="_quests">3.6. Quests</h3>
 
 </div>
 <div class="sect2">
-<h3 id="notifications">3.6. Notifications</h3>
+<h3 id="notifications">3.7. Notifications</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">Welcome</span><span class="delimiter">&quot;</span></span>: {
@@ -841,7 +860,7 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <div class="sect3">
 <h4 id="_notifications_functions">4.1.2. Notifications functions</h4>
 <div class="paragraph">
-<p><code>World.postNotification(notification)</code> send a notification on the screen. The <code>notification</code> parameter is a valid notification name (see <a href="#notifications">Section 3.6, &#8220;Notifications&#8221;</a>).</p>
+<p><code>World.postNotification(notification)</code> send a notification on the screen. The <code>notification</code> parameter is a valid notification name (see <a href="#notifications">Section 3.7, &#8220;Notifications&#8221;</a>).</p>
 </div>
 </div>
 <div class="sect3">
@@ -858,6 +877,9 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <div class="paragraph">
 <p><code>World.addCharacter(character, location)</code> adds a character in the specified location. The <code>character</code> parameter is a valid character name (see <a href="#characters">Section 3.2, &#8220;Characters&#8221;</a>). The <code>location</code> parameter is a valid location name on the map (see <a href="#locations_layer">Section 2.3.2, &#8220;Locations layer&#8221;</a>).</p>
 </div>
+<div class="paragraph">
+<p><code>World.setCharacterMood(character, mood)</code> set the character&#8217;s mood. The <code>character</code> parameter is a valid character name that has been added with <code>addCharacter</code>. The <code>mood</code> parameter can be one of <code>Mood.Quiet</code> or <code>Mood.Angry</code>.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_items_functions">4.1.5. Items functions</h4>
@@ -871,10 +893,10 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <div class="sect3">
 <h4 id="_dialogs_functions">4.1.6. Dialogs functions</h4>
 <div class="paragraph">
-<p><code>World.startDialog(dialog)</code> starts a dialog. The <code>dialog</code> parameter is a valid dialog name (see <a href="#dialogs">Section 3.4, &#8220;Dialogs&#8221;</a>).</p>
+<p><code>World.startDialog(dialog)</code> starts a dialog. The <code>dialog</code> parameter is a valid dialog name (see <a href="#dialogs">Section 3.5, &#8220;Dialogs&#8221;</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>World.attachDialogToCharacter(dialog, character)</code> set the next dialog of a character. The <code>dialog</code> parameter is a valid dialog name (see <a href="#dialogs">Section 3.4, &#8220;Dialogs&#8221;</a>). The <code>character</code> parameter is a valid character name (see <a href="#characters">Section 3.2, &#8220;Characters&#8221;</a>).</p>
+<p><code>World.attachDialogToCharacter(dialog, character)</code> set the next dialog of a character. The <code>dialog</code> parameter is a valid dialog name (see <a href="#dialogs">Section 3.5, &#8220;Dialogs&#8221;</a>). The <code>character</code> parameter is a valid character name (see <a href="#characters">Section 3.2, &#8220;Characters&#8221;</a>).</p>
 </div>
 </div>
 </div>
@@ -893,7 +915,7 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <p><code>Adventure.onMessage(message)</code> is called when the hero hits a zone. The <code>message</code> parameter is the message that is defined in the zone (see <a href="#zones_layer">Section 2.3.3, &#8220;Zones layer&#8221;</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>Adventure.onDialog(dialog)</code> is called at the end of a dialog. The <code>dialog</code> parameter is the name of the dialog that just ended (see <a href="#dialogs">Section 3.4, &#8220;Dialogs&#8221;</a>).</p>
+<p><code>Adventure.onDialog(dialog)</code> is called at the end of a dialog. The <code>dialog</code> parameter is the name of the dialog that just ended (see <a href="#dialogs">Section 3.5, &#8220;Dialogs&#8221;</a>).</p>
 </div>
 </div>
 </div>
@@ -902,7 +924,7 @@ It is recommanded to desactivate the minimap as it can slow down Tiled with a bi
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2019-09-20 12:58:34 +0200
+Last updated 2019-10-15 18:15:04 +0200
 </div>
 </div>
 <style>
